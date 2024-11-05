@@ -1,0 +1,86 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #E0F7FA;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* Mantener espacio para el navbar */
+  height: 100vh;
+  margin: 0;
+  padding-top: 60px;
+  /* Espacio para el navbar fijo */
+}
+
+.niveles {
+  font-size: 20px;
+  color: #3AB0A6;
+}
+
+.btn,
+.btn:hover {
+  display: inline-block;
+  background-color: #3AB0A6;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+}
+
+.container {
+  background: linear-gradient(180deg, #E0F7FA 0%, #ffffff 100%);
+  border-radius: 20px;
+  padding: 20px;
+  /* Padding aumentado para mejor espacio interno */
+  text-align: center;
+  width: 80vw;
+  /* Permitir más espacio para el contenido */
+  /* Permitir desplazamiento vertical */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  /* Añadir margen para separar de los bordes */
+}
+
+.row {
+  max-width: 100%;
+}
+
+.navbar {
+  background: linear-gradient(180deg, #E0F7FA 0%, #ffffff 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  margin: 0;
+}
+
+.titulo {
+  color: #3AB0A6;
+  font-size: 20px;
+  margin: 0;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+}
+
+h3 {
+  color: #90A4AE;
+  font-size: 18px;
+  margin: 10px 0 20px;
+  /* Ajustar margen inferior */
+  font-weight: normal;
+}
+
+
+.img-fluid {
+  width: 60px;
+  /* Ajustar el tamaño según tus necesidades */
+  height: 60px;
+  /* Mantener proporción de imagen */
+  border-radius: 50%;
+  /* Hacer las imágenes redondas */
+  object-fit: cover;
+  /* Mantener el recorte de la imagen */
+  margin: 10px 0;
+  /* Espaciado vertical entre imágenes */
+}

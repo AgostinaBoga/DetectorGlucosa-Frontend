@@ -1,0 +1,201 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Estilo general del contenedor */
+/* styles.css */
+body {
+  background-color: #E0F7FA;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.link {
+  color: #fff;
+  font-size: medium;
+  font-weight: 500;
+}
+
+.container {
+  background: linear-gradient(180deg, #E0F7FA 0%, #ffffff 100%);
+  border-radius: 20px;
+  padding: 10vw;
+  text-align: center;
+  width: 80vw;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 70px;
+  margin-bottom: 20px;
+}
+
+#glucoseChart {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.row {
+  max-width: 100%;
+  height: 100%;
+}
+
+.navbar {
+  background: linear-gradient(180deg, #E0F7FA 0%, #ffffff 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  margin: 0;
+}
+
+.titulo {
+  color: #3AB0A6;
+  font-size: 20px;
+  margin: 0;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+}
+
+.choice {
+  background: linear-gradient(180deg, #E0F7FA 0%, #ffffff 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  color: #3AB0A6;
+  border: none;
+  width: 150px;
+  margin-bottom: 12px;
+}
+
+.label {
+  color: #3AB0A6;
+  font-size: 20px;
+  margin: 0;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  color: #90A4AE;
+  font-size: 18px;
+  margin: 10px 0 20px;
+  /* Ajustado el margen inferior */
+  font-weight: normal;
+}
+
+.img-fluid {
+  max-width: 100%;
+  /* Hacer imágenes responsivas */
+  height: auto;
+  /* Mantener la proporción de la imagen */
+}
+
+.content {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+input[type="file"] {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+input[type="file"]::file-selector-button {
+  background-color: #3AB0A6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #2A8C85;
+}
+
+.file-select input[type="file"] {
+  display: block;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3AB0A6;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.btn,
+.btn:hover {
+  display: inline-block;
+  background-color: #3AB0A6;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-choice {
+  display: inline-block;
+  background-color: #3AB0A6;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 200px;
+  border: none;
+}
+
+.container.expanded {
+  height: auto;
+  /* Agranda automáticamente cuando aparece el círculo */
+}
+
+.intensity-container {
+  margin-top: 20px;
+}
+
+#intensityCanvas {
+  width: 200px;
+  /* Ajusta según tus necesidades */
+  height: 200px;
+  /* Ajusta según tus necesidades */
+  display: block;
+  /* Para centrar */
+  margin: auto;
+  /* Para centrar horizontalmente */
+}
+
+
+.button-container {
+  margin-top: 20px;
+}
+
+#statusText {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.d-none {
+  display: none;
+}
+
+@media (min-width: 728px) {
+  .container {
+    margin-top: 65px;
+  }
+
+  .row {
+    height: 100%;
+  }
+}

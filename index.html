@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deteccion de Glucosa</title>
+  <link rel="shortcut icon" href="./assets/logo.jpg" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="./style.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+      <div class="container-fluid">
+        <h1 class="titulo navbar-brand mb-0 h1" href="./index.html">Niveles de glucosa</h1>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="./index.html">Calculo Glucosa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./pages/colorimetria.html">Guia de colores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link d-none" id="aparece" href="./pages/registro.html">Registro</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  d-none" id="aparece1" href="./pages/login.html">Iniciar Sesion</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="desaparece" href="./pages/login.html" onclick="logout()">Cerrar Sesion</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- <input type="file" class="fileInput" id="fileInput" accept="image/*">
+  <canvas class="outputCanvas" id="outputCanvas" width="400" height="300"></canvas>
+  <div class="colorIntensity" id="colorIntensity"></div> -->
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <div class="row">
+    <div id="app" class="container">
+      <div class="hijo">
+        <canvas id="outputCanvas" class="d-none"></canvas>
+        <div id="colorIntensity" class="d-none"></div>
+        <div class="intensity-container">
+          <canvas id="intensityCanvas" width="200" height="200"></canvas>
+          <div id="statusText" class="intensity-container"></div>
+        </div>
+        <div class="file-select">
+          <label for="fileInput" id="boton-file" class="file-label">Medir Glucosa</label>
+          <input type="file" name="src-file" id="fileInput" accept="image/*" style="display: none;">
+          <button id="backButton" class="btn d-none">Back</button>
+          <button id="loginButton" class="btn d-none"><a href="./pages/login.html" class="link">Inicar
+              Sesion</a></button>
+        </div>
+      </div>
+    </div>
+    <canvas id="glucoseChart" width="400" height="200"></canvas>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- <script>
+    function onOpenCvReady() {
+      console.log('OpenCV.js loaded');
+      document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+    }
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const img = new Image();
+        img.onload = function () {
+          processImage(this);
+        };
+        img.src = event.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    function processImage(image) {
+      const canvas = document.getElementById('outputCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      ctx.drawImage(image, 0, 0);
+
+      // Convertir la imagen a un objeto Mat de OpenCV.js
+      const src = cv.imread(canvas);
+
+      // Convertir la imagen a HSV
+      const hsv = new cv.Mat();
+      cv.cvtColor(src, hsv, cv.COLOR_RGBA2RGB);
+      cv.cvtColor(hsv, hsv, cv.COLOR_RGB2HSV);
+
+      // Definir el rango de color azul en HSV
+      const lowerBlue = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [90, 50, 50, 0]);//Hue(matriz, cant de componentes),Saturacion,Valor, transparencia
+      const upperBlue = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [130, 255, 255, 255]);//totalmente opaco 255 en traparencia
+      // Rango para colores verdes
+      const lowerGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [35, 50, 50, 0]);
+      const upperGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [85, 255, 255, 255]);
+      // Crear máscaras para verdes y azules
+      let maskGreen = new cv.Mat();
+      let maskBlue = new cv.Mat();
+      cv.inRange(hsv, lowerGreen, upperGreen, maskGreen);
+      cv.inRange(hsv, lowerBlue, upperBlue, maskBlue);
+
+      // Combinar las máscaras para obtener una única máscara que incluya ambos colores
+      let mask = new cv.Mat();
+      cv.bitwise_or(maskGreen, maskBlue, mask);
+      // Crear una máscara para aislar las áreas azules
+
+      // Aplicar umbralización
+      const dst = new cv.Mat();
+      cv.threshold(mask, dst, 100, 255, cv.THRESH_BINARY);
+
+      // Calcular la intensidad del color
+      const intensity = cv.countNonZero(dst);
+      document.getElementById("colorIntensity").textContent = "Intensidad del color:" + intensity;
+
+      // Mostrar el resultado en el canvas
+
+      cv.imshow(canvas, dst);
+
+      // Liberar memoria
+      src.delete();
+      hsv.delete();
+      lowerBlue.delete();
+      upperBlue.delete();
+      mask.delete();
+      dst.delete();
+    }
+  </script> -->
+  <script src="./app.js"></script>
+  <script async src="https://docs.opencv.org/4.5.5/opencv.js" onload="onOpenCvReady()"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
+  <!-- <style>
+    #outputCanvas {
+      position: absolute;
+      z-index: -1;
+      width: 400px;
+      /*Este numero puede ser ajustado segun sea necesario*/
+    }
+  </style> -->
+</body>
+
+</html>
