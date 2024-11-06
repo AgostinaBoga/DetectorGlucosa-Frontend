@@ -1,3 +1,7 @@
+const logueado = localStorage.getItem('isUserLogged');
+if (!logueado) {
+  document.getElementById('desaparece').classList.add('d-none');
+}
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('downloadBtn').addEventListener('click', () => {
     const { jsPDF } = window.jspdf;
@@ -49,3 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
     pdf.save('informacion.pdf');
   });
 });
+function logout() {
+  localStorage.clear();
+}

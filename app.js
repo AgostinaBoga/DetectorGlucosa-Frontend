@@ -1,4 +1,3 @@
-
 function onOpenCvReady() {
   const logueado = localStorage.getItem('isUserLogged');
   console.log('OpenCV.js loaded');
@@ -79,8 +78,12 @@ async function processImage(image) {
 
   // Calcular la intensidad del color
   let intensity = Number(cv.countNonZero(dst));
-  let glucosa = Math.trunc(intensity * 0.477 - 47.6);
-  document.getElementById("colorIntensity").textContent = glucosa + ' mg/dl';
+  let glucosa = Math.trunc(intensity * 0.413 - 31.2);
+  if (glucosa < 0) {
+    document.getElementById("colorIntensity").textContent = 0 + ' mg/dl';
+  } else {
+    document.getElementById("colorIntensity").textContent = glucosa + ' mg/dl';
+  }
 
   // Mostrar el resultado en el canvas
   cv.imshow(canvas, dst);
@@ -106,7 +109,11 @@ async function processImage(image) {
   }
 
   // Actualizar la rueda de intensidad
-  updateIntensityCircle(glucosa);
+  if (glucosa < 0) {
+    updateIntensityCircle(0);
+  } else {
+    updateIntensityCircle(glucosa);
+  }
   renderGlucoseChart()
   // Liberar memoria
   src.delete();
@@ -375,6 +382,7 @@ const myChart = new Chart(ctx, {
 });
 async function renderGlucoseChart() {
   const usuarioId = localStorage.getItem('usuario');
+
   try {
     const response = await fetch(`${DATABASE_URL}/glucose`, {
       method: 'GET',
@@ -382,29 +390,44 @@ async function renderGlucoseChart() {
         'Content-Type': 'application/json',
       },
     });
+
     if (!response.ok) {
       throw new Error('Error al obtener los datos de glucosa');
     }
+
     const glucoseData = await response.json();
 
-    // Procesa los datos para extraer las fechas y los niveles de glucosa
-    const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-    const glucoseLevels = new Array(7).fill(0); // Array para almacenar los niveles de glucosa para cada día
+    // Variables para definir la semana actual
+    const today = new Date();
+    const currentWeekStart = new Date(today);
+    currentWeekStart.setDate(today.getDate() - today.getDay()); // Inicio de la semana (domingo)
+    const currentWeekEnd = new Date(currentWeekStart);
+    currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // Fin de la semana (sábado)
 
-    // Asigna los datos de glucosa a cada día de la semana
+    // Inicializa el array para almacenar los niveles de glucosa de cada día de la semana actual
+    const glucoseLevels = new Array(7).fill(0);
+
+    // Filtra y asigna los datos de glucosa de la semana actual a cada día correspondiente
     glucoseData.forEach(data => {
       const date = new Date(data.fecha);
       const day = date.getDay(); // Obtiene el día de la semana (0 = domingo, 6 = sábado)
-      if (data.usuario.toString() === usuarioId && day >= 0 && day < 7) {
-        glucoseLevels[day - 1] += data.concentracion; // Asigna el valor de glucosa al día correspondiente
+
+      // Comprueba que el dato sea del usuario actual y de la semana actual
+      if (
+        data.usuario.toString() === usuarioId &&
+        date >= currentWeekStart &&
+        date <= currentWeekEnd &&
+        day >= 0 && day < 7
+      ) {
+        glucoseLevels[day] = data.concentracion; // Asigna el valor de glucosa al día correspondiente de la semana
       }
     });
 
     // Actualiza los datos del gráfico
     myChart.data.datasets[0].data = glucoseLevels;
     myChart.update(); // Redibuja el gráfico con los datos actualizados
+
   } catch (error) {
     console.error('Error:', error);
-    return [];
   }
 }
