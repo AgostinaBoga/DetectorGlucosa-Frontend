@@ -24,12 +24,14 @@
 
 .toggle-password {
   position: absolute;
-  right: 25%;
-  top: 50%;
+  right: 80px;
+  /* Ajusta el valor en px en lugar de % */
+  top: 285px;
   transform: translateY(-50%);
   cursor: pointer;
   color: #1C3144;
 }
+
 
 .body-login {
   overflow: hidden;
