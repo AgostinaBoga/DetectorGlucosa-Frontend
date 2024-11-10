@@ -111,10 +111,11 @@ async function processImage(image) {
   // Actualizar la rueda de intensidad
   if (glucosa < 0) {
     updateIntensityCircle(0);
+    renderGlucoseChart()
   } else {
     updateIntensityCircle(glucosa);
+    renderGlucoseChart()
   }
-  renderGlucoseChart()
   // Liberar memoria
   src.delete();
   hsv.delete();
