@@ -397,38 +397,46 @@ async function renderGlucoseChart() {
     }
 
     const glucoseData = await response.json();
+    console.log('Datos de glucosa recibidos:', glucoseData);
 
-    // Variables para definir la semana actual
+    // Ajuste en el cálculo de fechas
     const today = new Date();
     const currentWeekStart = new Date(today);
-    currentWeekStart.setDate(today.getDate() - today.getDay()); // Inicio de la semana (domingo)
+    currentWeekStart.setDate(today.getDate() - today.getDay()); // Siempre es el domingo de esta semana (inicio de semana)
+    currentWeekStart.setHours(0, 0, 0, 0); // Asegura que el tiempo esté a las 00:00
     const currentWeekEnd = new Date(currentWeekStart);
-    currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // Fin de la semana (sábado)
+    currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // Sábado de la misma semana
+    currentWeekEnd.setHours(23, 59, 59, 999); // Asegura que el tiempo esté al final del día
 
-    // Inicializa el array para almacenar los niveles de glucosa de cada día de la semana actual
     const glucoseLevels = new Array(7).fill(0);
 
-    // Filtra y asigna los datos de glucosa de la semana actual a cada día correspondiente
     glucoseData.forEach(data => {
       const date = new Date(data.fecha);
-      const day = date.getDay(); // Obtiene el día de la semana (0 = domingo, 6 = sábado)
+      const day = date.getDay();
 
-      // Comprueba que el dato sea del usuario actual y de la semana actual
+      // Comprueba que el dato sea del usuario actual y esté en la semana actual
       if (
         data.usuario.toString() === usuarioId &&
         date >= currentWeekStart &&
         date <= currentWeekEnd &&
         day >= 0 && day < 7
       ) {
-        glucoseLevels[day] = data.concentracion; // Asigna el valor de glucosa al día correspondiente de la semana
+        glucoseLevels[day] = data.concentracion;
       }
     });
 
-    // Actualiza los datos del gráfico
-    myChart.data.datasets[0].data = glucoseLevels;
-    myChart.update(); // Redibuja el gráfico con los datos actualizados
+    console.log('Niveles de glucosa para la semana actual:', glucoseLevels);
+
+    if (myChart) {
+      myChart.data.datasets[0].data = glucoseLevels;
+      myChart.update();
+      console.log('Gráfica actualizada');
+    } else {
+      console.error('myChart no está inicializado');
+    }
 
   } catch (error) {
     console.error('Error:', error);
   }
 }
+
