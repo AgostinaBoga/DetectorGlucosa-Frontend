@@ -140,7 +140,7 @@ function updateIntensityCircle(intensity) {
   if (diabInput.value === 'true') {
     maxIntensity = 180; // 80-130mg/dl (normal), <180mg/dl (2h despues de comer) 
   } else {
-    maxIntensity = 180;//70-100mg/dl, <140mg/dl (2h despues de comer) , los dos llegan a 180 pero los porcentajes cambian
+    maxIntensity = 140;//70-100mg/dl, <140mg/dl (2h despues de comer) , los dos llegan a 180 pero los porcentajes cambian
   }
   const percentage = Math.min(intensity / maxIntensity, 1) * 100;
 
@@ -344,7 +344,7 @@ document.getElementById('backButton').addEventListener('click', function () {
 });
 // Crear el gráfico
 // Variables iniciales
-const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 const glucoseLevels = new Array(7).fill(0); // Niveles de glucosa iniciales para cada día
 
 // Crear el gráfico inicial sin datos
@@ -394,11 +394,16 @@ async function renderGlucoseChart() {
       throw new Error('Error al obtener los datos de glucosa');
     }
     const glucoseData = await response.json();
-    console.log('Datos de glucosa recibidos:', glucoseData);
 
     // Procesa los datos para extraer las fechas y los niveles de glucosa
     const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     const glucoseLevels = new Array(7).fill(0); // Array para almacenar los niveles de glucosa para cada día
+    // Variables para definir la semana actual
+    const today = new Date();
+    const currentWeekStart = new Date(today);
+    currentWeekStart.setDate(today.getDate() - today.getDay()); // Inicio de la semana (domingo)
+    const currentWeekEnd = new Date(currentWeekStart);
+    currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // Fin de la semana (sábado)
 
     // Asigna los datos de glucosa a cada día de la semana
     glucoseData.forEach(data => {
@@ -415,8 +420,6 @@ async function renderGlucoseChart() {
         glucoseLevels[day] = data.concentracion;
       }
     });
-
-    console.log('Niveles de glucosa para la semana actual:', glucoseLevels);
 
     if (myChart) {
       myChart.data.datasets[0].data = glucoseLevels;
