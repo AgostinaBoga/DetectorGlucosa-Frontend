@@ -111,10 +111,11 @@ async function processImage(image) {
   // Actualizar la rueda de intensidad
   if (glucosa < 0) {
     updateIntensityCircle(0);
+    renderGlucoseChart()
   } else {
     updateIntensityCircle(glucosa);
+    renderGlucoseChart()
   }
-  renderGlucoseChart()
   // Liberar memoria
   src.delete();
   hsv.delete();
@@ -393,6 +394,7 @@ async function renderGlucoseChart() {
       throw new Error('Error al obtener los datos de glucosa');
     }
     const glucoseData = await response.json();
+    console.log('Datos de glucosa recibidos:', glucoseData);
 
     // Procesa los datos para extraer las fechas y los niveles de glucosa
     const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -401,18 +403,33 @@ async function renderGlucoseChart() {
     // Asigna los datos de glucosa a cada día de la semana
     glucoseData.forEach(data => {
       const date = new Date(data.fecha);
-      const day = date.getDay(); // Obtiene el día de la semana (0 = domingo, 6 = sábado)
-      if (data.usuario.toString() === usuarioId && day >= 0 && day < 7) {
-        glucoseLevels[day - 1] += data.concentracion; // Asigna el valor de glucosa al día correspondiente
+      const day = date.getDay();
+
+      // Comprueba que el dato sea del usuario actual y esté en la semana actual
+      if (
+        data.usuario.toString() === usuarioId &&
+        date >= currentWeekStart &&
+        date <= currentWeekEnd &&
+        day >= 0 && day < 7
+      ) {
+        glucoseLevels[day] = data.concentracion;
       }
     });
 
-    // Actualiza los datos del gráfico
-    myChart.data.datasets[0].data = glucoseLevels;
-    myChart.update(); // Redibuja el gráfico con los datos actualizados
+    console.log('Niveles de glucosa para la semana actual:', glucoseLevels);
+
+    if (myChart) {
+      myChart.data.datasets[0].data = glucoseLevels;
+      myChart.update();
+      console.log('Gráfica actualizada');
+    } else {
+      console.error('myChart no está inicializado');
+    }
+
   } catch (error) {
     console.error('Error:', error);
     return [];
   }
 }
+
 

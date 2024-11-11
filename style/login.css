@@ -26,12 +26,20 @@
   position: absolute;
   right: 90px;
   /* Ajusta el valor en px en lugar de % */
-  top: 445px;
+  top: 400px;
   transform: translateY(-50%);
   cursor: pointer;
   color: #1C3144;
 }
 
+@media (min-width: 600px) {
+  .toggle-password {
+    position: absolute;
+    right: 30%;
+    top: 51.5%;
+    transform: translateY(-50%);
+  }
+}
 
 .body-login {
   overflow: hidden;
