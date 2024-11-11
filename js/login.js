@@ -34,7 +34,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     localStorage.setItem('usuario', decodedToken.id);
 
     // Redirige al usuario a la página de inicio
-    window.location.replace('https://detector-glucosa.netlify.app/index.html');
+    window.location.replace('http://127.0.0.1:5500/index.html');
 
   } catch (error) {
     console.error('Error:', error);

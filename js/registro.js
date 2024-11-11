@@ -43,7 +43,7 @@ document.getElementById('todo-form').addEventListener('submit', async (event) =>
       return;
     }
     // Redirige al usuario a la página de inicio
-    window.location.replace('https://detector-glucosa.netlify.app/pages/login.html');
+    window.location.replace('http://127.0.0.1:5500/pages/login.html');
   } catch (error) {
     console.error('Error:', error);
     alert('Error al conectar con el servidor');
