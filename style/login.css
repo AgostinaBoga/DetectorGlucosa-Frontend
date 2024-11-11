@@ -24,9 +24,8 @@
 
 .toggle-password {
   position: absolute;
-  right: 90px;
-  /* Ajusta el valor en px en lugar de % */
-  top: 400px;
+  right: 10px;
+  top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #1C3144;
@@ -110,26 +109,7 @@
   }
 
   .toggle-password {
-    right: 30%;
-    top: 51%;
-    transform: translateY(-50%);
-  }
-}
-
-@media (min-width: 1200px) {
-  .toggle-password {
-    position: absolute;
-    right: 35%;
-    top: 51.5%;
-    transform: translateY(-50%);
-  }
-}
-
-@media (min-width: 600px) {
-  .toggle-password {
-    position: absolute;
-    right: 30%;
-    top: 51.5%;
-    transform: translateY(-50%);
+    right: 20px;
+    top: 50%;
   }
 }

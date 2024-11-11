@@ -49,11 +49,14 @@
       </div>
       <div class="mb-3">
         <label for="password" class="form-label labelLogin">Contraseña</label>
-        <input type="password" id="password" class="form-control inputLogin" placeholder="*******" required>
-        <div class="invalid-feedback">Este campo es obligatorio</div>
-        <span id="togglePassword" class="toggle-password">
-          <i class="fa fa-eye" aria-hidden="true"></i>
-        </span>
+        <div class="password-container">
+          <input type="password" id="password" class="form-control inputLogin" minlength="4" maxlength="32"
+            placeholder="*******" required>
+          <span id="togglePassword" class="toggle-password">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+          </span>
+          <div class="invalid-feedback">Este campo es obligatorio</div>
+        </div>
       </div>
       <button type="submit" class="btn btn-primary btnLogin w-100">Iniciar Sesión</button>
       <p class="text-dark mt-3">¿No tienes una cuenta? <a href="../pages/registro.html" class="links">Registrarse</a>
