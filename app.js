@@ -395,15 +395,15 @@ async function renderGlucoseChart() {
     }
     const glucoseData = await response.json();
 
-    // Procesa los datos para extraer las fechas y los niveles de glucosa
-    const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    const glucoseLevels = new Array(7).fill(0); // Array para almacenar los niveles de glucosa para cada día
-    // Variables para definir la semana actual
+    // Calcula el inicio y fin de la semana actual
     const today = new Date();
     const currentWeekStart = new Date(today);
-    currentWeekStart.setDate(today.getDate() - today.getDay()); // Inicio de la semana (domingo)
+    currentWeekStart.setDate(today.getDate() - today.getDay());
+    currentWeekStart.setHours(0, 0, 0, 0); // Asegura que sea el inicio del día
+
     const currentWeekEnd = new Date(currentWeekStart);
-    currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // Fin de la semana (sábado)
+    currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+    currentWeekEnd.setHours(23, 59, 59, 999); // Asegura que sea el final del día
 
     // Asigna los datos de glucosa a cada día de la semana
     glucoseData.forEach(data => {
@@ -424,15 +424,11 @@ async function renderGlucoseChart() {
     if (myChart) {
       myChart.data.datasets[0].data = glucoseLevels;
       myChart.update();
-      console.log('Gráfica actualizada');
     } else {
       console.error('myChart no está inicializado');
     }
 
   } catch (error) {
     console.error('Error:', error);
-    return [];
   }
 }
-
-
