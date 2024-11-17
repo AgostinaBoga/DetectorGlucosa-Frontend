@@ -34,7 +34,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     localStorage.setItem('usuario', decodedToken.id);
 
     // Redirige al usuario a la página de inicio
-    window.location.href = '../index.html';
+    window.location.replace('../index.html');
 
   } catch (error) {
     console.error('Error:', error);
