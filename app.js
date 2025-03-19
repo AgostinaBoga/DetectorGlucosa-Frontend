@@ -77,8 +77,26 @@ async function processImage(image) {
   cv.threshold(mask, dst, 100, 255, cv.THRESH_BINARY);
 
   // Calcular la intensidad del color
-  let intensity = Number(cv.countNonZero(dst));
-  let glucosa = Math.trunc(intensity * 0.413 - 31.2);
+  // Extraer el canal V (brillo) de la imagen HSV
+  let channels = new cv.MatVector();
+  cv.split(hsv, channels);
+  let vChannel = channels.get(2); // Canal V
+
+  // Crear una máscara donde solo se tengan en cuenta los píxeles dentro del color detectado
+  let maskedV = new cv.Mat();
+  cv.bitwise_and(vChannel, vChannel, maskedV, mask);
+
+  // Calcular la intensidad promedio del color detectado
+  let meanColor = cv.mean(maskedV, mask);
+  let intensity = meanColor[0]; // Intensidad promedio del canal V
+
+  // Liberar memoria
+  channels.delete();
+  vChannel.delete();
+  maskedV.delete();
+
+  // let glucosa = Math.trunc(intensity * 0.413 - 31.2);
+  let glucosa = Math.trunc(intensity)
   if (glucosa < 0) {
     document.getElementById("colorIntensity").textContent = 0 + ' mg/dl';
   } else {
