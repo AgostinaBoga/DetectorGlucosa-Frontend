@@ -59,8 +59,11 @@ async function processImage(image) {
   const upperBlue = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [130, 255, 255, 255]);
 
   // Rango para colores verdes
-  const lowerGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [35, 50, 50, 0]);
-  const upperGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [85, 255, 255, 255]);
+  //const lowerGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [35, 50, 50, 0]);
+  //const upperGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [85, 255, 255, 255]);
+  const lowerGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [30, 40, 20, 0]);
+  const upperGreen = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [100, 255, 255, 255]);
+
 
   // Crear máscaras para verdes y azules
   let maskGreen = new cv.Mat();
