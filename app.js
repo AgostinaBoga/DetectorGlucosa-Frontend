@@ -238,24 +238,24 @@ function updateIntensityCircle(intensity) {
   if (diabInput.value === 'true') {
     if (percentage <= 44) {
       color = '#82c6ed';
-      text = 'Glucosa Baja';
+      text = 'Low glucose level';
     } else if (percentage <= 78) {
       color = '#55b8f2';
-      text = 'Normal';
+      text = 'Normal level';
     } else {
       color = '#1f75a6';
-      text = 'Glucosa Alta';
+      text = 'High glucose level';
     }
   } else {
     if (percentage <= 50) {
       color = '#82c6ed';
-      text = 'Glucosa Baja';
+      text = 'Low glucose level';
     } else if (percentage <= 72) {
       color = '#55b8f2';
-      text = 'Normal';
+      text = 'Normal level';
     } else {
       color = '#1f75a6';
-      text = 'Glucosa Alta';
+      text = 'High glucose level';
     }
   }
   ctx.beginPath();
@@ -365,7 +365,7 @@ document.getElementById('backButton').addEventListener('click', function () {
 });
 // Crear el gráfico
 // Variables iniciales
-const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thrusday', 'Friday', 'Saturday'];
 const glucoseLevels = new Array(7).fill(0); // Niveles de glucosa iniciales para cada día
 
 // Crear el gráfico inicial sin datos
@@ -375,7 +375,7 @@ const myChart = new Chart(ctx, {
   data: {
     labels: daysOfWeek,
     datasets: [{
-      label: 'Concentración de Glucosa',
+      label: 'Glucose Concentration',
       data: glucoseLevels,
       backgroundColor: 'rgba(75, 192, 192, 0.2)',
       borderColor: 'rgba(75, 192, 192, 1)',
@@ -388,14 +388,14 @@ const myChart = new Chart(ctx, {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Nivel de Glucosa (mg/dL)',
+          text: 'Glucose Level (mg/dL)',
           color: 'rgba(0, 0, 0,1)'
         }
       },
       x: {
         title: {
           display: true,
-          text: 'Días de la Semana',
+          text: 'Weekday',
           color: 'rgba(0, 0, 0,1)'
         }
       }
