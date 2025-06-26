@@ -99,7 +99,7 @@ async function processImage(image) {
   maskedV.delete();
 
   // let glucosa = Math.trunc(intensity * 0.413 - 31.2);
-  let glucosa = Math.trunc(intensity)
+  let glucosa = Math.trunc(intensity *1.4686-157.16)
   if (glucosa < 0) {
     document.getElementById("colorIntensity").textContent = 0 + ' mg/dl';
   } else {
